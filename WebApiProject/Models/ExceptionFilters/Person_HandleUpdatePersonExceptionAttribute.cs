@@ -4,8 +4,15 @@ using WebApiProject.Models.Repositories;
 
 namespace WebApiProject.Models.ExceptionFilters
 {
-    public class Person_HandleUpdatePersonExceptionFilterAttribute : ExceptionFilterAttribute
+    public class Person_HandleUpdatePersonExceptionAttribute : ExceptionFilterAttribute
     {
+        private readonly IPersonRepository personRepository;
+
+        public Person_HandleUpdatePersonExceptionAttribute(IPersonRepository personRepository)
+        {
+            this.personRepository = personRepository;
+        }
+
         public override void OnException(ExceptionContext context)
         {
             base.OnException(context);
@@ -13,7 +20,8 @@ namespace WebApiProject.Models.ExceptionFilters
             var strPersonId = context.RouteData.Values["id"] as string;
             if (int.TryParse(strPersonId, out var personId))
             {
-                if (!PersonRepository.Exists(personId))
+                var personToUpdate = personRepository.GetById(personId);
+                if (personToUpdate == null)
                 {
                     context.ModelState.AddModelError("Person", "person doesn't exists anymore");
                     var problemDetails = new ValidationProblemDetails(context.ModelState)

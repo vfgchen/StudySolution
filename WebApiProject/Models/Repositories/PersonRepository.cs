@@ -1,65 +1,66 @@
-﻿namespace WebApiProject.Models.Repositories
+﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
+using WebApiProject.Data;
+
+namespace WebApiProject.Models.Repositories
 {
-    public static class PersonRepository
+    public class PersonRepository : IPersonRepository
     {
-        private static List<Person> list = new List<Person>
-        {
-            new Person() { Id = 1, Name = "yangmi", Age = 30, Gender = "Female" },
-            new Person() { Id = 2, Name = "jingtian", Age = 32, Gender = "Female" },
-            new Person() { Id = 3, Name = "wukong", Age = 500, Gender = "Male" },
-            new Person() { Id = 4, Name = "bajie", Age = 1000, Gender = "Male" }
-        };
+        private readonly ApplicationDbContext db;
 
-        public static List<Person> GetPersons()
+        public PersonRepository(ApplicationDbContext db)
         {
-            return list;
+            this.db = db;
         }
 
-        public static bool Exists(int id)
+        public List<Person> GetPersons()
         {
-            return list.Any(x => x.Id == id);
+            return db.Persons.ToList();
         }
 
-        public static Person? GetById(int id)
+        public Person? GetById(int id)
         {
-            return list.FirstOrDefault(x => x.Id == id);
+            return db.Persons.FirstOrDefault(x => x.Id == id);
         }
 
-        public static Person? GetPersonByProperties(string? name, int? age, string? gender)
+        public Person? GetPersonByProperties(string? name, int? age, string? gender)
         {
-            return list.FirstOrDefault(x =>
+            return db.Persons.FirstOrDefault(x =>
                 !string.IsNullOrWhiteSpace(name) &&
                 !string.IsNullOrWhiteSpace(x.Name) &&
-                string.Equals(name, x.Name, StringComparison.OrdinalIgnoreCase) &&
+                name.ToLower().Equals(x.Name.ToLower()) &&
 
                 age.HasValue && x.Age.HasValue && age == x.Age &&
 
                 !string.IsNullOrWhiteSpace(gender) &&
                 !string.IsNullOrWhiteSpace(x.Gender) &&
-                string.Equals(gender, x.Gender, StringComparison.OrdinalIgnoreCase)
+                gender.ToLower().Equals(x.Gender.ToLower())
             );
         }
 
-        public static void AddPerson(Person person)
+        public void AddPerson(Person person)
         {
-            person.Id = list.Max(x => x.Id) + 1;
-            list.Add(person);
+            db.Persons.Add(person);
+            db.SaveChanges();
         }
 
-        public static void UpdatePerson(Person person)
+        public void UpdatePerson(Person? personToUpdate, Person args)
         {
-            var persosToUpdate = list.First(x => x.Id == person.Id);
-            persosToUpdate.Name = person.Name;
-            persosToUpdate.Age = person.Age;
-            persosToUpdate.Gender = person.Gender;
+            if (personToUpdate != null)
+            {
+                personToUpdate.Name = args.Name;
+                personToUpdate.Age = args.Age;
+                personToUpdate.Gender = args.Gender;
+                db.SaveChanges();
+            }
         }
 
-        public static void DeletePerson(int id)
+        public void DeletePerson(Person? person)
         {
-            var person = list.FirstOrDefault(x => x.Id == id);
             if (person != null)
             {
-                list.Remove(person);
+                db.Persons.Remove(person);
+                db.SaveChanges();
             }
         }
     }

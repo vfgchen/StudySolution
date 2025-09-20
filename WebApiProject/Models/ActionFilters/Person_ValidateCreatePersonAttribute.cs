@@ -4,8 +4,15 @@ using WebApiProject.Models.Repositories;
 
 namespace WebApiProject.Models.ActionFilters
 {
-    public class Person_ValidateCreatePersonActionFilter : ActionFilterAttribute
+    public class Person_ValidateCreatePersonAttribute : ActionFilterAttribute
     {
+        private readonly IPersonRepository personRepository;
+
+        public Person_ValidateCreatePersonAttribute(IPersonRepository personRepository)
+        {
+            this.personRepository = personRepository;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
@@ -22,7 +29,7 @@ namespace WebApiProject.Models.ActionFilters
             }
             else
             {
-                var existsPerson = PersonRepository.GetPersonByProperties(
+                var existsPerson = personRepository.GetPersonByProperties(
                     person.Name, person.Age, person.Gender);
                 if (existsPerson != null)
                 {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using WebApiProject.Models;
 using WebApiProject.Models.ActionFilters;
 using WebApiProject.Models.ExceptionFilters;
@@ -10,43 +11,52 @@ namespace WebApiProject.Controllers
     [Route("/api/[controller]")]
     public class PersonController : ControllerBase
     {
+        private readonly IPersonRepository personRepository;
+
+        public PersonController(IPersonRepository personRepository)
+        {
+            this.personRepository = personRepository;
+        }
+
         [HttpGet]
         public IActionResult GetPersons()
         {
-            return Ok(PersonRepository.GetPersons());
+            return Ok(personRepository.GetPersons());
         }
 
         [HttpGet("{id}")]
-        [Person_ValidatePersonIdFilter]
+        [TypeFilter(typeof(Person_ValidatePersonIdAttribute))]
         public IActionResult GetPersonById(int id)
         {
-            return Ok(PersonRepository.GetById(id));
+            var person = this.HttpContext.Items["person"] as Person;
+            return Ok(person);
         }
 
         [HttpPost]
-        [Person_ValidateCreatePersonActionFilter]
+        [TypeFilter(typeof(Person_ValidateCreatePersonAttribute))]
         public IActionResult CreatePerson(Person person)
         {
-            PersonRepository.AddPerson(person);
+            personRepository.AddPerson(person);
             return CreatedAtAction(nameof(GetPersonById), new { id = person.Id }, person);
         }
 
         [HttpPut("{id}")]
-        [Person_ValidatePersonIdFilter]
-        [Person_ValidateUpdatePersonFilter]
-        [Person_HandleUpdatePersonExceptionFilter]
+        [TypeFilter(typeof(Person_ValidatePersonIdAttribute))]
+        [TypeFilter(typeof(Person_ValidateUpdatePersonAttribute))]
+        [TypeFilter(typeof(Person_HandleUpdatePersonExceptionAttribute))]
         public IActionResult UpdatePerson(int id, Person person)
         {
-            PersonRepository.UpdatePerson(person);
+            var personToUpdate = this.HttpContext.Items["person"] as Person;
+            personRepository.UpdatePerson(personToUpdate, person);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        [Person_ValidatePersonIdFilter]
+        [TypeFilter(typeof(Person_ValidatePersonIdAttribute))]
         public IActionResult DeletePerson(int id)
         {
-            var person = PersonRepository.GetById(id);
-            PersonRepository.DeletePerson(id);
+            var person = this.HttpContext.Items["person"] as Person;
+            personRepository.DeletePerson(person);
             return Ok(person);
         }
 

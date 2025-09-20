@@ -1,37 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using WebApiProject.Data;
 using WebApiProject.Models.Repositories;
 
 namespace WebApiProject.Models.ActionFilters
 {
-    public class Person_ValidatePersonIdFilterAttribute : ActionFilterAttribute
+    public class Person_ValidateUpdatePersonAttribute : ActionFilterAttribute
     {
+        private readonly IPersonRepository personRepository;
+
+        public Person_ValidateUpdatePersonAttribute(IPersonRepository personRepository)
+        {
+            this.personRepository = personRepository;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
 
             var id = context.ActionArguments["id"] as int?;
-            if (!id.HasValue) return;
+            var person = context.ActionArguments["person"] as Person;
 
-            if (id < 0)
+            if (id.HasValue && person != null && id != person.Id)
             {
-                context.ModelState.AddModelError("PersonId", "PersonId is invalid");
+                context.ModelState.AddModelError("PersonId", "PersonId is not same as id");
                 var problemDetails = new ValidationProblemDetails(context.ModelState)
                 {
                     Status = StatusCodes.Status400BadRequest
                 };
                 context.Result = new BadRequestObjectResult(problemDetails);
             }
-            else if (!PersonRepository.Exists(id.Value))
-            {
-                context.ModelState.AddModelError("PersonId", "PersonId dosn't exists");
-                var problemDetails = new ValidationProblemDetails(context.ModelState)
-                {
-                    Status = StatusCodes.Status404NotFound
-                };
-                context.Result = new NotFoundObjectResult(problemDetails);
-            }
-            
+
         }
     }
 }
