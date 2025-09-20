@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using WebApiProject.Models;
 using WebApiProject.Models.ActionFilters;
 using WebApiProject.Models.ExceptionFilters;
 using WebApiProject.Models.Repositories;
 
-namespace WebApiProject.Controllers
+namespace WebApiProject.Controllers.Api
 {
     [ApiController]
     [Route("/api/[controller]")]
@@ -28,7 +27,7 @@ namespace WebApiProject.Controllers
         [TypeFilter(typeof(Person_ValidatePersonIdAttribute))]
         public IActionResult GetPersonById(int id)
         {
-            var person = this.HttpContext.Items["person"] as Person;
+            var person = HttpContext.Items["person"] as Person;
             return Ok(person);
         }
 
@@ -46,7 +45,7 @@ namespace WebApiProject.Controllers
         [TypeFilter(typeof(Person_HandleUpdatePersonExceptionAttribute))]
         public IActionResult UpdatePerson(int id, Person person)
         {
-            var personToUpdate = this.HttpContext.Items["person"] as Person;
+            var personToUpdate = HttpContext.Items["person"] as Person;
             personRepository.UpdatePerson(personToUpdate, person);
             return NoContent();
         }
@@ -55,7 +54,7 @@ namespace WebApiProject.Controllers
         [TypeFilter(typeof(Person_ValidatePersonIdAttribute))]
         public IActionResult DeletePerson(int id)
         {
-            var person = this.HttpContext.Items["person"] as Person;
+            var person = HttpContext.Items["person"] as Person;
             personRepository.DeletePerson(person);
             return Ok(person);
         }

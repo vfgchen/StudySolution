@@ -11,6 +11,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(optionsBuilder => {
     optionsBuilder.UseSqlServer(connectionString);
 });
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+builder.Services.AddHttpClient("PersonApi", client => {
+    client.BaseAddress = new Uri("http://localhost:5019/api/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+builder.Services.AddScoped<IWebApiExecutor, WebApiExecutor>();
 
 var app = builder.Build();
 
