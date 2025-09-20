@@ -6,6 +6,7 @@ namespace WebApiProject.Controllers.Web
 {
     [ApiController]
     [Route("/web/[controller]")]
+    [TypeFilter(typeof(WebApiExceptionFilterAttribute))]
     public class PersonController : ControllerBase
     {
         private readonly IWebApiExecutor webApiExecutor;
