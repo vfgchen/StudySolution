@@ -1,0 +1,6 @@
+@WebApiProject_HostAddress = http://localhost:5019
+
+GET {{WebApiProject_HostAddress}}/shirts
+Accept: application/json
+
+###
