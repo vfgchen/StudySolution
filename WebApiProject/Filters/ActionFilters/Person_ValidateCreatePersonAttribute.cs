@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebApiProject.Models.Repositories;
+using WebApiProject.Models;
+using WebApiProject.Repositories;
 
-namespace WebApiProject.Models.ActionFilters
+namespace WebApiProject.Filters.ActionFilters
 {
     public class Person_ValidateCreatePersonAttribute : ActionFilterAttribute
     {

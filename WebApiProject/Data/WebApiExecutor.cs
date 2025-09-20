@@ -1,7 +1,4 @@
-﻿using Azure;
-using System.Text.Json;
-
-namespace WebApiProject.Data
+﻿namespace WebApiProject.Data
 {
     public class WebApiExecutor : IWebApiExecutor
     {

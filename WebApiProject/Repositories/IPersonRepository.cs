@@ -1,5 +1,6 @@
-﻿
-namespace WebApiProject.Models.Repositories
+﻿using WebApiProject.Models;
+
+namespace WebApiProject.Repositories
 {
     public interface IPersonRepository
     {

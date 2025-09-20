@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApiProject.Filters.ActionFilters;
+using WebApiProject.Filters.ExceptionFilters;
 using WebApiProject.Models;
-using WebApiProject.Models.ActionFilters;
-using WebApiProject.Models.ExceptionFilters;
-using WebApiProject.Models.Repositories;
+using WebApiProject.Repositories;
 
 namespace WebApiProject.Controllers.Api
 {

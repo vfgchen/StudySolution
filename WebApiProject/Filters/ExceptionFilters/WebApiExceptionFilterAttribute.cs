@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Reflection;
 using WebApiProject.Data;
 
-namespace WebApiProject.Controllers.Web
+namespace WebApiProject.Filters.ExceptionFilters
 {
     public class WebApiExceptionFilterAttribute : ExceptionFilterAttribute
     {

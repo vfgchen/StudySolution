@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebApiProject.Models.Repositories;
+using WebApiProject.Repositories;
 
-namespace WebApiProject.Models.ExceptionFilters
+namespace WebApiProject.Filters.ExceptionFilters
 {
     public class Person_HandleUpdatePersonExceptionAttribute : ExceptionFilterAttribute
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApiProject.Data;
+using WebApiProject.Filters.ExceptionFilters;
 using WebApiProject.Models;
 
 namespace WebApiProject.Controllers.Web

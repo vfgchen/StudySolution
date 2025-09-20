@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using WebApiProject.Data;
+using WebApiProject.Models;
 
-namespace WebApiProject.Models.Repositories
+namespace WebApiProject.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
