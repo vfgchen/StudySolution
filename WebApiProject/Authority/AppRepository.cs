@@ -14,11 +14,6 @@
             }
         };
 
-        public static bool Authenticate(string clientId, string secret)
-        {
-            return list.Any(x => x.ClientId == clientId && x.Secret == secret);
-        }
-
         public static Application? GetApplicationByClientId(string clientId)
         {
             return list.FirstOrDefault(x => x.ClientId == clientId);

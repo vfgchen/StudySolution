@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace WebApiProject.Authority
 {
@@ -20,12 +17,13 @@ namespace WebApiProject.Authority
         [HttpPost]
         public IActionResult Authenticate([FromBody] AppCredential credential)
         {
-            if (AppRepository.Authenticate(credential.ClientId, credential.Secret))
+            if (Authenticator.Authenticate(credential.ClientId, credential.Secret))
             {
                 var expiresAt = DateTime.UtcNow.AddMinutes(10);
+                var securityKey = configuration["SecurityKey"] ?? string.Empty;
                 return Ok(new
                 {
-                    access_token = CreateToken(credential.ClientId, expiresAt),
+                    access_token = Authenticator.CreateToken(credential.ClientId, expiresAt, securityKey),
                     expires_at = expiresAt
                 });
             }
@@ -39,37 +37,6 @@ namespace WebApiProject.Authority
                 return new UnauthorizedObjectResult(problemDetails);
             }
         }
-
-        private string CreateToken(string clientId, DateTime expiresAt)
-        {
-            // Signing Key
-            var SecurityKey = configuration["SecurityKey"] ?? string.Empty;
-
-            // Algorithm
-            var signingCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecurityKey)),
-                SecurityAlgorithms.HmacSha256Signature
-                );
-
-            // Payload (cliams)
-            var app = AppRepository.GetApplicationByClientId(clientId);
-            var cliams = new Dictionary<string, object>
-            {
-                { "AppName", app?.ApplicationName ?? string.Empty },
-                { "Read", (app?.Scopes ?? string.Empty).Contains("read") ? "true" : "false" },
-                { "Write", (app?.Scopes ?? string.Empty).Contains("write") ? "true" : "false" }
-            };
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                SigningCredentials = signingCredentials,
-                Claims = cliams,
-                Expires = expiresAt,
-                NotBefore = DateTime.UtcNow
-            };
-
-            var tokenHandler = new JsonWebTokenHandler();
-            return tokenHandler.CreateToken(tokenDescriptor);
-        }
+        
     }
 }
