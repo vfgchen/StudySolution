@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WebApiProject.Data
+namespace WebApiProject.Remote
 {
     public class ErrorResponse
     {

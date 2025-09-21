@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WebApiProject.Data;
+using WebApiProject.Remote;
 using WebApiProject.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);

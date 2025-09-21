@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebApiProject.Data;
+using WebApiProject.Remote;
 
 namespace WebApiProject.Filters.ExceptionFilters
 {

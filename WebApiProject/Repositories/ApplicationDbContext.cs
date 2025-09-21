@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiProject.Models;
 
-namespace WebApiProject.Data
+namespace WebApiProject.Repositories
 {
     public class ApplicationDbContext : DbContext
     {

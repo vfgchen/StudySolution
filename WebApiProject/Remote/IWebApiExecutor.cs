@@ -1,5 +1,5 @@
 ﻿
-namespace WebApiProject.Data
+namespace WebApiProject.Remote
 {
     public interface IWebApiExecutor
     {

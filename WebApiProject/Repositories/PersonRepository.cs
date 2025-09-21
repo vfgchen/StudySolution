@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
-using WebApiProject.Data;
-using WebApiProject.Models;
+﻿using WebApiProject.Models;
 
 namespace WebApiProject.Repositories
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace WebApiProject.Data
+namespace WebApiProject.Remote
 {
     public class WebApiException : Exception
     {
