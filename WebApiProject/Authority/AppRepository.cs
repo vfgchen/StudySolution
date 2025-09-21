@@ -18,5 +18,10 @@
         {
             return list.FirstOrDefault(x => x.ClientId == clientId);
         }
+
+        public static Application? GetDefaultApplication()
+        {
+            return list.FirstOrDefault<Application>();
+        }
     }
 }
