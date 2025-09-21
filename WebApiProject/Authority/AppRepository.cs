@@ -7,9 +7,10 @@
             new Application
             {
                 ApplicationId = 1,
-                ApplicationName = "WebProject",
+                ApplicationName = "WebApiProject",
                 ClientId = "70D20BDE-5DCF-4140-BEE2-66A5FDD08FA9",
-                Secret  = "2D4B9F54-CE87-447A-84E0-51D39EBE3C6D"
+                Secret  = "2D4B9F54-CE87-447A-84E0-51D39EBE3C6D",
+                Scopes = "read,write"
             }
         };
 
