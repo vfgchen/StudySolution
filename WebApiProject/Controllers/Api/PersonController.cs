@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApiProject.Filters.ActionFilters;
+using WebApiProject.Filters.AuthFilters;
 using WebApiProject.Filters.ExceptionFilters;
 using WebApiProject.Models;
 using WebApiProject.Repositories;
@@ -8,6 +9,7 @@ namespace WebApiProject.Controllers.Api
 {
     [ApiController]
     [Route("/api/[controller]")]
+    [TypeFilter(typeof(JwtTokenAuthrizationFilter))]
     public class PersonController : ControllerBase
     {
         private readonly IPersonRepository personRepository;
