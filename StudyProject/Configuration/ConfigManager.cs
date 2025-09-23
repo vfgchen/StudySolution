@@ -1,15 +1,19 @@
 ﻿using Microsoft.Extensions.Options;
-using Microsoft.VisualBasic.FileIO;
 
 namespace StudyProject.Configuration
 {
     public class ConfigManager
     {
-        public IOptions<Config> Config { get; }
+        private readonly IOptions<Config> config;
 
         public ConfigManager(IOptions<Config> config)
         {
-            this.Config = config;
+            this.config = config;
+        }
+
+        public Config GetConfig()
+        {
+            return this.config.Value;
         }
 
     }

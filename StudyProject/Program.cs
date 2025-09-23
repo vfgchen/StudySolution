@@ -7,5 +7,5 @@ services.AddConfiguration();
 var serviceProvider = services.BuildServiceProvider();
 
 var configManager = serviceProvider.GetService<ConfigManager>();
-var config = configManager?.Config.Value;
+var config = configManager?.GetConfig();
 Console.WriteLine(config?.Contact?.Email);
