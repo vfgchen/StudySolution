@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(optionsBuilder => {
-    var connectionString = builder.Configuration.GetConnectionString("StudyDB");
+    var connectionString = builder.Configuration.GetConnectionString("WebApi");
     optionsBuilder.UseSqlServer(connectionString);
 });
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
