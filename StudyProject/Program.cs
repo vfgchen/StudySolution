@@ -1,16 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using StudyProject.Configuration;
-using StudyProject.Logging;
+﻿using StudyProject.EFCore;
 
-var services = new ServiceCollection();
-services.AddConfiguration();
-services.AddSerilogLogging();
-var serviceProvider = services.BuildServiceProvider();
+var ctx = new ApplicationDbContext();
 
-var configManager = serviceProvider.GetRequiredService<ConfigManager>();
-var config = configManager?.GetConfig();
+ctx.Persons.ToList().ForEach(person =>
+    Console.WriteLine(person.Name)
+);
 
-var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-logger.LogDebug("config: {@config}", config);

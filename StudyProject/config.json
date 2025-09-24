@@ -4,8 +4,5 @@
   "contact": {
     "email": "yangmi@163.com",
     "phone": "18912341234"
-  },
-  "ConnectionStrings": {
-    "StudyDB": "Data Source=(local);Initial Catalog=StudyDB;Integrated Security=True;Trust Server Certificate=True"
   }
 }
